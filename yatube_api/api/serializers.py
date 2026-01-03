@@ -52,9 +52,13 @@ class FollowSerializer(serializers.ModelSerializer):
     def validate_following(self, value):
         user = self.context['request'].user
         if user == value:
-            raise serializers.ValidationError('Not allowed to follow yourself.')
+            raise serializers.ValidationError(
+                'Not allowed to follow yourself.'
+            )
         if Follow.objects.filter(user=user, following=value).exists():
-            raise serializers.ValidationError('Not allowed to follow the same user.')
+            raise serializers.ValidationError(
+                'Not allowed to follow the same user.'
+            )
         return value
 
 
