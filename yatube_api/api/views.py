@@ -10,6 +10,7 @@ from posts.models import Comment, Post, Group
 from .serializers import (
     CommentSerializer, PostSerializer, GroupSerializer, FollowSerializer)
 from .permissions import IsAuthenticatedOrAuthorOrReadOnly
+from .viewsets import CreateListViewSet
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -39,9 +40,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=self.get_post())
 
 
-class FollowViewSet(
-        viewsets.GenericViewSet, ListModelMixin, CreateModelMixin,
-):
+class FollowViewSet(CreateListViewSet):
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
